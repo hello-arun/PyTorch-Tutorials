@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"python.defaultInterpreterPath": "${workspaceFolder}/../ml-kirigami-pytorch/env/python",
+		"python.terminal.activateEnvironment": true,
+	}
+}
