@@ -5,7 +5,7 @@
 		}
 	],
 	"settings": {
-		"python.defaultInterpreterPath": "${workspaceFolder}/../ml-kirigami-pytorch/env/python",
 		"python.terminal.activateEnvironment": true,
+		"python.defaultInterpreterPath": "~/Miniconda3/envs/pytorch-1.12.0/python",
 	}
 }
