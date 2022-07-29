@@ -86,69 +86,9 @@ hidden_size = 32  # you can change this
 num_classes = 10
 
 model = MnistModel(input_size, hidden_size=32, out_size=num_classes)
-
-# Using GPU
-print(torch.cuda.is_available())  # Check if CUDA is available
-
-
-def get_default_device():
-    """Pick GPU if available, else CPU"""
-    if torch.cuda.is_available():
-        return torch.device('cuda')
-    else:
-        return torch.device('cpu')
-
-
-device = get_default_device()
-print("Using Device", device)
-
-
-def to_device(data, device):
-    """Move tensor(s) to chosen device"""
-    if isinstance(data, (list, tuple)):
-        return [to_device(x, device) for x in data]
-    return data.to(device, non_blocking=True)
-
-
-for images, labels in train_loader:
-    print(images.shape)
-    images = to_device(images, device)
-    print(images.device)
-    break
-
-# Finally, we define a `DeviceDataLoader` class to wrap our existing data loaders and
-# move batches of data to the selected device. Interestingly, we don't need to extend
-# an existing class to create a PyTorch datal oader.All we need is an `__iter__` method
-# to retrieve batches of data and an `__len__` method to get the number of batches.
-
-
-class DeviceDataLoader():
-    """Wrap a dataloader to move data to a device"""
-
-    def __init__(self, dl, device):
-        self.dl = dl
-        self.device = device
-
-    def __iter__(self):
-        """Yield a batch of data after moving it to device"""
-        for b in self.dl:
-            yield to_device(b, self.device)
-
-    def __len__(self):
-        """Number of batches"""
-        return len(self.dl)
-
-
-train_loader = DeviceDataLoader(train_loader, device)
-val_loader = DeviceDataLoader(val_loader, device)
-
-# Tensors moved to the GPU have a `device` property which includes that word `cuda`. Let's verify this by looking at a batch of data from `valid_dl`.
-
 # ## Training the Model
 # We'll define two functions: `fit` and `evaluate` to train the model using gradient descent
 # and evaluate its performance on the validation set.
-
-
 def evaluate(model, val_loader):
     """Evaluate the model's performance on the validation set"""
     outputs = [model.validation_step(batch) for batch in val_loader]
@@ -172,14 +112,59 @@ def fit(epochs, lr, model, train_loader, val_loader, opt_func=torch.optim.SGD):
         history.append(result)
     return history
 
+# Using GPU
+# 1. Get default device i.e. Use GPU if avaible
+
+# Now We mainly have two things with us 
+# 1. Model and Tensors
+# 2. DataLoaders
+# So to handle them
+# 1. Define a method to transfer Model and Tensors
+# 2. Define a class to move Data Loader
+
+
+def get_default_device():
+    """Pick GPU if available, else CPU"""
+    if torch.cuda.is_available():
+        return torch.device('cuda')
+    else:
+        return torch.device('cpu')
+device = get_default_device()
+print("Using Device", device)
+
+# To transfer model and tensors
+def to_device(data, device):
+    """Move tensor(s) to chosen device"""
+    if isinstance(data, (list, tuple)):
+        return [to_device(x, device) for x in data]
+    return data.to(device, non_blocking=True)
+
+
+# To transfer DataLoader
+class DeviceDataLoader():
+    """Wrap a dataloader to move data to a device"""
+
+    def __init__(self, dl, device):
+        self.dl = dl
+        self.device = device
+
+    def __iter__(self):
+        """Yield a batch of data after moving it to device"""
+        for b in self.dl:
+            yield to_device(b, self.device)
+
+    def __len__(self):
+        """Number of batches"""
+        return len(self.dl)
+
+model = MnistModel(input_size, hidden_size=hidden_size, out_size=num_classes)
 # Before we train the model, we need to ensure that the data and the model's parameters
 # (weights and biases) are on the same device (CPU or GPU). We can reuse the `to_device`
 # function to move the model's parameters to the right device.
-
-
 # Model (on GPU)
-model = MnistModel(input_size, hidden_size=hidden_size, out_size=num_classes)
 to_device(model, device)
+train_loader = DeviceDataLoader(train_loader, device)
+val_loader = DeviceDataLoader(val_loader, device)
 
 history = [evaluate(model, val_loader)]
 history += fit(5, 0.5, model, train_loader, val_loader)
