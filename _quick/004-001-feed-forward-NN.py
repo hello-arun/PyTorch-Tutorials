@@ -18,9 +18,7 @@ frac_train = 0.80
 frac_val = 0.20
 val_size = int(len(dataset)*frac_val)
 train_size = int(len(dataset) - val_size)
-train_ds, val_ds = random_split(dataset, [train_size, val_size])
-
-len(train_ds), len(val_ds)
+train_ds, val_ds = random_split(dataset, [train_size, val_size],generator=torch.Generator().manual_seed(42))
 
 batch_size = 128
 train_loader = DataLoader(train_ds, batch_size,
@@ -28,7 +26,6 @@ train_loader = DataLoader(train_ds, batch_size,
 val_loader = DataLoader(val_ds, batch_size*2, num_workers=0, pin_memory=True)
 
 # Let's define the model by extending the `nn.Module` class from PyTorch.
-
 
 class MnistModel(nn.Module):
     """Feedfoward neural network with 1 hidden layer"""
