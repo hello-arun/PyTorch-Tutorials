@@ -20,7 +20,7 @@ mamba env create --prefix ./env --file environment.yml --force
 ```
 or to setup in miniconda envs dir
 ```bash
-mamba env create --name pytorch-1.12.0 --file environment.yml --force
+mamba env create --name mlenv --file environment.yml --force
 ```
 
 ## Update the conda env
@@ -38,7 +38,7 @@ mamba env update --prefix ./env --file environment.yml  --prune
 To update in Miniconda envs dir
 ```bash
 conda actiavte base
-mamba env update --name pytorch-1.12.0 --file environment.yml  --prune
+mamba env update --name mlenv --file environment.yml  --prune
 ```
 
 ## Remove the conda env
@@ -49,7 +49,7 @@ If you are low on storage and want to completely remove the conda env. You can d
 conda deactivate
 conda env remove --prefix ./env
 # or to remove from conda env dirs
-conda env remove --name pytorch-1.12.0
+conda env remove --name mlenv
 ```
 
 ## Folders

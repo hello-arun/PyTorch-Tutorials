@@ -3,7 +3,7 @@
 
 # ML model raw data files
 data/
-
+raw/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

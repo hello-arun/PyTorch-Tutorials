@@ -1,35 +1,34 @@
-name: PyTorch-Tutorial
-
+name: mlenv
 channels:
-  - defaults
   - conda-forge
+  - defaults
   - pytorch
 
 dependencies:
 # Mostly used Python libs
-  - python=3.10.4
-  - autopep8=1.6.0
-  - black=19.10b0
-  - pip=22.1.2
-  - numpy=1.22.3
-  - scipy=1.7.3
-  - pandas=1.4.3
-  - matplotlib=3.5.1
+  - python
+  - autopep8
+  - black
+  - pip
+  - numpy
+  - scipy
+  - pandas
+  - matplotlib
   # - pip:
     # - tensorflow==2.0
 # IPython modules
-  - ipywidgets=7.6.5
-  # - jupyterlab
+  - ipywidgets
+  - jupyterlab
   # - jupyterlab-git
   # - jupyterlab-nvdashboard
   # - jupyterlab-lsp
   # - python-language-server
 # Machine learning modules
-  - pytorch=1.12.0
-  - torchvision=0.13.0
-  - torchaudio=0.12.0
+  - pytorch
+  - torchvision
+  - torchaudio
   # - pytorch=1.9
   # - pytorch-lightning
   # - torchvision
 # GPU 
-  - cudatoolkit=11.6 
+  - cudatoolkit
