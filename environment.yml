@@ -1,8 +1,9 @@
 name: mlenv
 channels:
+  - pytorch
+  - nvidia
   - conda-forge
   - defaults
-  - pytorch
 
 dependencies:
 # Mostly used Python libs
@@ -27,8 +28,9 @@ dependencies:
   - pytorch
   - torchvision
   - torchaudio
-  # - pytorch=1.9
+  - pytorch-cuda=12.1
+  - torchmetrics
   # - pytorch-lightning
   # - torchvision
 # GPU 
-  - cudatoolkit
+  # - cudatoolkit
